@@ -16,15 +16,25 @@ module.exports = async (req, res) => {
         return res.status(403).send('Forbidden');
     }
 
+    // Get all parameters from the query
     const clickId = req.query.click_id;
-    const payou = req.query.payou;
+    const device = req.query.Device;
+    const mac = req.query.mac;
+    const payout = req.query.payout;
 
     if (!clickId || !payou) {
         return res.status(400).send('Missing parameters');
     }
 
     // Customize your message here
-    const message = `✅ *New Conversion!*\n\n🆔 *Click ID:* \`${clickId}\`\n💰 *Payout:* \`${payou}\`\n🕒 *Time:* ${new Date().toLocaleString()}`;
+      // Custom Telegram message
+    const message = 
+`🎉 *New Conversion!*
+🆔 *Click ID:* \`${clickId}\`
+📱 *Device:* \`${device}\`
+🔗 *MAC Address:* \`${mac}\`
+💰 *Payout:* \`${payout}\`
+🕒 *Time:* ${new Date().toLocaleString()}`;
 
     try {
         await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
